@@ -1,5 +1,5 @@
 # File: Wordle.py
-
+#TESTING
 """
 This module is the starter file for the Wordle assignment.
 BE SURE TO UPDATE THIS COMMENT WHEN YOU WRITE THE CODE.
@@ -19,6 +19,7 @@ def wordle():
     gw.add_enter_listener(enter_action)
 
 # Startup code
+
 
 if __name__ == "__main__":
     wordle()
