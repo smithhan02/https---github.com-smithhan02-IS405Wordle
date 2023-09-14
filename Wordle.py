@@ -45,6 +45,16 @@ def wordle():
             #move to next column/letter
             position += 1
         
+        #check if word is in word_list
+        # guessword = [] #initialize list to append user input 
+        # for letter in s:
+        #     guessword.append(s)
+        print(s)
+        if s in word_list:
+             gw.show_message("Not the correct word")
+        else:
+             gw.show_message("Not in word list")
+
         #if previous word is not correct, call this fucntion to move rows
         if (gw.get_current_row() >= 5):
             #ran out of turns
