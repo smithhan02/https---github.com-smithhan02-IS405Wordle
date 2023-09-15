@@ -36,6 +36,17 @@ def wordle():
      
         if s == answer: #check if user guessed correct answer
              gw.show_message("Congratulations, You Won!") 
+             for letter in s:
+                if letter == answer[position]:
+                    gw.set_square_color(gw.get_current_row(), position, CORRECT_COLOR) #color green
+                #letter in answer but not in the same position
+                elif letter in answer:
+                    gw.set_square_color(gw.get_current_row(), position, PRESENT_COLOR) #color yellow
+                else:
+                    gw.set_square_color(gw.get_current_row(), position, MISSING_COLOR) #color grey
+
+                #move to next column/letter
+                position += 1
         elif r in word_list and r != answer: #check if user guessed a word from the list 
             gw.show_message("Not the correct word")
             
@@ -50,15 +61,17 @@ def wordle():
 
                 #move to next column/letter
                 position += 1
+            
+                #if previous word is not correct, call this fucntion to move rows
+            if (gw.get_current_row() >= 5):
+                #ran out of turns
+                gw.show_message("YOU LOSE!")
+            else:
+                gw.set_current_row((gw.get_current_row() + 1))
         else:
             gw.show_message("Not in word list")
          
-        #if previous word is not correct, call this fucntion to move rows
-        if (gw.get_current_row() >= 5):
-            #ran out of turns
-            gw.show_message("YOU LOSE!")
-        else:
-            gw.set_current_row((gw.get_current_row() + 1))
+       
 
 
     gw = WordleGWindow()
