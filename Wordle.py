@@ -27,38 +27,32 @@ def wordle():
     answer = random.choice(word_list)
     answer = answer.upper()
     print(answer) #prints the answer in the terminal to help with testing
-
-
+    
     #once the user hits enter, run the function below
     def enter_action(s):  #s is the user's guess
-
+        r = s.lower() # r is the lower case version of the user's 
         position = 0 #setting initial column position 
-        for letter in s:
-            if letter == answer[position]:
-                gw.set_square_color(gw.get_current_row(), position, CORRECT_COLOR) #color green
-            #letter in answer but not in the same position
-            elif letter in answer:
-                gw.set_square_color(gw.get_current_row(), position, PRESENT_COLOR) #color yellow
-            else:
-                gw.set_square_color(gw.get_current_row(), position, MISSING_COLOR) #color grey
+        print(r) #prints lower case version of user guess in terminal 
+     
+        if s == answer: #check if user guessed correct answer
+             gw.show_message("Congratulations, You Won!") 
+        elif r in word_list and r != answer: #check if user guessed a word from the list 
+            gw.show_message("Not the correct word")
+            
+            for letter in s:
+                if letter == answer[position]:
+                    gw.set_square_color(gw.get_current_row(), position, CORRECT_COLOR) #color green
+                #letter in answer but not in the same position
+                elif letter in answer:
+                    gw.set_square_color(gw.get_current_row(), position, PRESENT_COLOR) #color yellow
+                else:
+                    gw.set_square_color(gw.get_current_row(), position, MISSING_COLOR) #color grey
 
-            #move to next column/letter
-            position += 1
-
-        result = 0 #this number changes depending on whether the guess is a word in word_list or not
-
-        r = s.lower() # r is the lower case version of the user's guess. 
-        print(r)
-        while result == 0: 
-            if r in word_list:
-                gw.show_message("Not the correct word")
-                result += 1
-            else:
-                gw.show_message("Not in word list")
-               
-                        
-                
-
+                #move to next column/letter
+                position += 1
+        else:
+            gw.show_message("Not in word list")
+         
         #if previous word is not correct, call this fucntion to move rows
         if (gw.get_current_row() >= 5):
             #ran out of turns
