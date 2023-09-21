@@ -9,11 +9,11 @@ import random
 
 from WordleDictionary import FIVE_LETTER_WORDS
 from WordleGraphics import WordleGWindow, N_COLS, N_ROWS
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton
+import sys
 
 
-CORRECT_COLOR = "#66BB66"       # Light green for correct letters
-PRESENT_COLOR = "#CCBB66"       # Brownish yellow for misplaced letters
-MISSING_COLOR = "#999999"       # Gray for letters that don't appear
+
 
 def wordle():
 
@@ -38,12 +38,12 @@ def wordle():
              gw.show_message("Congratulations, You Won!") 
              for letter in s:
                 if letter == answer[position]:
-                    gw.set_square_color(gw.get_current_row(), position, CORRECT_COLOR) #color green
+                    gw.set_square_color(gw.get_current_row(), position, gw.get_letter_color("CORRECT")) #color green
                 #letter in answer but not in the same position
                 elif letter in answer:
-                    gw.set_square_color(gw.get_current_row(), position, PRESENT_COLOR) #color yellow
+                    gw.set_square_color(gw.get_current_row(), position, gw.get_letter_color("PRESENT")) #color yellow
                 else:
-                    gw.set_square_color(gw.get_current_row(), position, MISSING_COLOR) #color grey
+                    gw.set_square_color(gw.get_current_row(), position, gw.get_letter_color("MISSING")) #color grey
 
                 #move to next column/letter
                 position += 1
@@ -52,12 +52,12 @@ def wordle():
             
             for letter in s:
                 if letter == answer[position]:
-                    gw.set_square_color(gw.get_current_row(), position, CORRECT_COLOR) #color green
+                    gw.set_square_color(gw.get_current_row(), position, gw.get_letter_color("CORRECT")) #color green
                 #letter in answer but not in the same position
                 elif letter in answer:
-                    gw.set_square_color(gw.get_current_row(), position, PRESENT_COLOR) #color yellow
+                    gw.set_square_color(gw.get_current_row(), position, gw.get_letter_color("PRESENT")) #color yellow
                 else:
-                    gw.set_square_color(gw.get_current_row(), position, MISSING_COLOR) #color grey
+                    gw.set_square_color(gw.get_current_row(), position, gw.get_letter_color("MISSING")) #color grey
 
                 #move to next column/letter
                 position += 1

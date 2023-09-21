@@ -21,6 +21,11 @@ MISSING_COLOR = "#999999"       # Gray for letters that don't appear
 UNKNOWN_COLOR = "#FFFFFF"       # Undetermined letters are white
 KEY_COLOR = "#DDDDDD"           # Keys are colored light gray
 
+#alternate colors
+CORRECT_COLOR_ALTERNATE = "#113A6B"       # Blue for correct letters
+PRESENT_COLOR_ALTERNATE = "#84AFE3"       # Light Pink for misplaced letters
+MISSING_COLOR_ALTERNATE = "#E9DFF2"       # Light purple for letters that don't appear
+
 CANVAS_WIDTH = 500		# Width of the tkinter canvas (pixels)
 CANVAS_HEIGHT = 700		# Height of the tkinter canvas (pixels)
 
@@ -63,6 +68,8 @@ class WordleGWindow:
 
     def __init__(self):
         """Creates the Wordle window."""
+        # super(WordleGWindow, self).__init__()
+        # self.setWindowTitle("Toggle Button")
 
         def create_grid():
             return [
@@ -88,6 +95,8 @@ class WordleGWindow:
                         w += (KEY_WIDTH + KEY_XSEP) / 2
                     keys[label] = WordleKey(self._canvas, x, y, w, h, label)
                     x += w + KEY_XSEP
+            #ADD TOGGLE KEY
+            keys["toggle"] = WordleKey(self._canvas, 10, 75, 70, 30, "Color")
             return keys
 
         def create_message():
@@ -106,6 +115,34 @@ class WordleGWindow:
                     self._col -= 1
                     sq = self._grid[self._row][self._col]
                     sq.set_letter(" ")
+            elif ch == "COLOR": #If the color button is pressed, change the color scheme
+                self.set_current_color_scheme()
+                self.show_message("COLOR SCHEME CHANGED")
+                curr_row = self.get_current_row()
+                #The below code goes row by row and checks each letter for current color, and then changes it to match the current
+                #color scheme.
+                if (curr_row > 0):
+                    change_row = 0
+                    while change_row <= curr_row:
+                        curr_letter = 0 
+                        while curr_letter < 5:
+                            if((self.get_square_color(change_row, curr_letter) == CORRECT_COLOR)):
+                                self.set_square_color(change_row, curr_letter, self.get_letter_color("CORRECT"))
+                            elif((self.get_square_color(change_row, curr_letter) == CORRECT_COLOR_ALTERNATE)):
+                                self.set_square_color(change_row, curr_letter, self.get_letter_color("CORRECT"))
+                            elif((self.get_square_color(change_row, curr_letter) == PRESENT_COLOR)):
+                                self.set_square_color(change_row, curr_letter, self.get_letter_color("PRESENT"))
+                            elif (self.get_square_color(change_row, curr_letter) == PRESENT_COLOR_ALTERNATE):
+                                self.set_square_color(change_row, curr_letter, self.get_letter_color("PRESENT"))
+                            elif((self.get_square_color(change_row, curr_letter) == MISSING_COLOR)):
+                                self.set_square_color(change_row, curr_letter, self.get_letter_color("MISSING"))
+                            elif(self.get_square_color(change_row, curr_letter) == MISSING_COLOR_ALTERNATE):
+                                self.set_square_color(change_row, curr_letter, self.get_letter_color("MISSING"))
+                            curr_letter = curr_letter + 1
+                        change_row = change_row + 1
+            
+                            
+
             elif ch == "\r" or ch == "\n" or ch == "ENTER":
                 self.show_message("")
                 s = ""
@@ -119,6 +156,8 @@ class WordleGWindow:
                     sq = self._grid[self._row][self._col]
                     sq.set_letter(ch)
                     self._col += 1
+            
+
 
         def press_action(tke):
             self._down_x = tke.x
@@ -169,6 +208,7 @@ class WordleGWindow:
         root.bind("<ButtonRelease-1>", release_action)
         self._row = 0
         self._col = 0
+        self.color_scheme = "Default"
         atexit.register(start_event_loop)
 
     def get_square_letter(self, row, col):
@@ -204,6 +244,30 @@ class WordleGWindow:
 
     def show_message(self, msg, color="Black"):
         self._message.set_text(msg, color)
+
+    def set_current_color_scheme(self):
+        if (self.color_scheme == "Default"):
+            self.color_scheme = "Alternate"
+        elif (self.color_scheme == "Alternate"):
+            self.color_scheme = "Default"
+
+    def get_letter_color(self, type):
+        if (type == "CORRECT"):
+            if (self.color_scheme == "Default"):
+                return CORRECT_COLOR
+            else:
+                return CORRECT_COLOR_ALTERNATE
+        elif (type == "PRESENT"):
+            if (self.color_scheme == "Default"):
+                return PRESENT_COLOR
+            else:
+                return PRESENT_COLOR_ALTERNATE
+        elif (type == "MISSING"):
+            if (self.color_scheme == "Default"):
+                return MISSING_COLOR
+            else:
+                return MISSING_COLOR_ALTERNATE
+
 
 
 class WordleSquare:
