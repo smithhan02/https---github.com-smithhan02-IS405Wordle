@@ -138,6 +138,7 @@ class WordleGWindow:
                 self.show_message("These are your stats")
                 #print stats_list with new line 
                 print(WordleClass.stats_list)
+                
 
             elif ch == "COLOR": #If the color button is pressed, change the color scheme
                 self.set_current_color_scheme()
