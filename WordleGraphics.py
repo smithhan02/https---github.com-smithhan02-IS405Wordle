@@ -9,6 +9,8 @@ import atexit
 import math
 import time
 import tkinter
+from Wordle import WordleClass
+
 
 # Constants
 
@@ -97,8 +99,15 @@ class WordleGWindow:
                     x += w + KEY_XSEP
             #ADD TOGGLE KEY
             keys["toggle"] = WordleKey(self._canvas, 10, 75, 70, 30, "Color")
-            return keys
+           
+            #Add key to play game again and reset board
+            keys["replay"] = WordleKey(self._canvas, 10, 115, 70, 30, "Replay")
 
+             #Add key to show stats from past rounds 
+            keys["stats"] = WordleKey(self._canvas, 10, 155, 70, 30, "Stats")
+            return keys
+        
+            
         def create_message():
             return WordleMessage(self._canvas,
                                  CANVAS_WIDTH / 2,
@@ -115,6 +124,21 @@ class WordleGWindow:
                     self._col -= 1
                     sq = self._grid[self._row][self._col]
                     sq.set_letter(" ")
+            elif ch == "REPLAY": #if the Replay button is pressed, clear board annd start over 
+            # self.play_again() 
+                for row in range(N_ROWS):
+                    for col in range(N_COLS):
+                        self.set_square_letter(row, col, " ")
+                        self.set_square_color(row, col, UNKNOWN_COLOR)
+                if __name__ == "__main__":
+                 WordleClass.wordle()
+                
+                self.show_message("New Wordle Round")
+            elif ch == "STATS":
+                self.show_message("These are your stats")
+                #print stats_list with new line 
+                print(WordleClass.stats_list)
+
             elif ch == "COLOR": #If the color button is pressed, change the color scheme
                 self.set_current_color_scheme()
                 self.show_message("COLOR SCHEME CHANGED")
@@ -141,8 +165,6 @@ class WordleGWindow:
                             curr_letter = curr_letter + 1
                         change_row = change_row + 1
             
-                            
-
             elif ch == "\r" or ch == "\n" or ch == "ENTER":
                 self.show_message("")
                 s = ""
@@ -156,7 +178,9 @@ class WordleGWindow:
                     sq = self._grid[self._row][self._col]
                     sq.set_letter(ch)
                     self._col += 1
-            
+           
+        
+      
 
 
         def press_action(tke):
