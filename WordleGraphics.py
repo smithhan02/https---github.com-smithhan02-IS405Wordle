@@ -10,7 +10,10 @@ import math
 import time
 import tkinter
 # from Wordle import WordleClass
-
+# from logic import WordleLogic
+from WordleDictionary import FIVE_LETTER_WORDS
+import random
+import sys
 
 # Constants
 
@@ -72,7 +75,8 @@ class WordleGWindow:
         """Creates the Wordle window."""
         # super(WordleGWindow, self).__init__()
         # self.setWindowTitle("Toggle Button")
-
+        self.stats_list = [] # each time a correct answer is guessed, the row number of the guess will be appended to to stats_list
+        self.round_number = 0 #this number advances each time the player guesses a correct word
         def create_grid():
             return [
                 [
@@ -101,10 +105,10 @@ class WordleGWindow:
             keys["toggle"] = WordleKey(self._canvas, 10, 75, 70, 30, "Color")
            
             #Add key to play game again and reset board
-            keys["replay"] = WordleKey(self._canvas, 10, 115, 70, 30, "Replay")
+            keys["share"] = WordleKey(self._canvas, 10, 115, 70, 30, "Share")
 
              #Add key to show stats from past rounds 
-            keys["stats"] = WordleKey(self._canvas, 10, 155, 70, 30, "Stats")
+            # keys["stats"] = WordleKey(self._canvas, 10, 155, 70, 30, "Stats")
             return keys
         
             
@@ -124,20 +128,19 @@ class WordleGWindow:
                     self._col -= 1
                     sq = self._grid[self._row][self._col]
                     sq.set_letter(" ")
-            elif ch == "REPLAY": #if the Replay button is pressed, clear board annd start over 
-            # self.play_again() 
+            elif ch == "SHARE": #if the Replay button is pressed, clear board annd start over 
                 for row in range(N_ROWS):
                     for col in range(N_COLS):
                         self.set_square_letter(row, col, " ")
-                        self.set_square_color(row, col, UNKNOWN_COLOR)
-                if __name__ == "__main__":
-                 WordleClass.wordle()
-                
-                self.show_message("New Wordle Round")
+                        # self.set_square_color(row, col, UNKNOWN_COLOR)
+                # self.set_current_row(0)
+                # self.wordle2()
+                guessCount = str(self.get_current_row) 
+                self.show_message("Congratulations! Share your results with friends!")
             elif ch == "STATS":
                 self.show_message("These are your stats")
                 #print stats_list with new line 
-                print(WordleClass.stats_list)
+                # self.show_message(self.stats_list)
                 
 
             elif ch == "COLOR": #If the color button is pressed, change the color scheme
@@ -292,6 +295,89 @@ class WordleGWindow:
                 return MISSING_COLOR
             else:
                 return MISSING_COLOR_ALTERNATE
+
+
+    def wordle2(self):
+
+        #pick random word for the answer from word list
+        word_list= []
+        word_file = FIVE_LETTER_WORDS
+        for word in word_file:
+            word_list.append(word.strip())
+        
+        #pick a word
+        answer = random.choice(word_list)
+        answer = answer.upper()
+        print(answer) #prints the answer in the terminal to help with testing
+        
+        #once the user hits enter, run the function below
+        def enter_action(s):  #s is the user's guess
+            r = s.lower() # r is the lower case version of the user's 
+            position = 0 #setting initial column position 
+            print(r) #prints lower case version of user guess in terminal 
+            
+            if s == answer: #check if user guessed correct answer
+                self.show_message("Congratulations, You Won!") 
+                # self.round_number += 1 #advance round number 
+                # self.stats_list.append(str(self.round_number) + " " + str(self.get_current_row()) + " guesses n/") #append number of guesses for this round to stats_list
+                print(self.stats_list)
+                for letter in s:
+                    if letter == answer[position]:
+                        self.set_square_color(self.get_current_row(), position, self.get_letter_color("CORRECT")) #color green
+                    #letter in answer but not in the same position
+                    elif letter in answer:
+                        self.set_square_color(self.get_current_row(), position, self.get_letter_color("PRESENT")) #color yellow
+                    else:
+                        self.set_square_color(self.get_current_row(), position, self.get_letter_color("MISSING")) #color grey
+                        self.get_current_row()
+                    #move to next column/letter
+                    position += 1
+            elif r in word_list and r != answer: #check if user guessed a word from the list 
+                self.show_message("Not the correct word")
+                
+                for letter in s:
+                    if letter == answer[position]:
+                        self.set_square_color(self.get_current_row(), position, self.get_letter_color("CORRECT")) #color green
+                    #letter in answer but not in the same position
+                    elif letter in answer:
+                        self.set_square_color(self.get_current_row(), position, self.get_letter_color("PRESENT")) #color yellow
+                    else:
+                        self.set_square_color(self.get_current_row(), position, self.get_letter_color("MISSING")) #color grey
+
+                    #move to next column/letter
+                    position += 1
+                
+                    #if previous word is not correct, call this fucntion to move rows
+                if (self.get_current_row() >= 5):
+                    #ran out of turns
+                    self.show_message("YOU LOSE!")
+                else:
+                    self.set_current_row((self.get_current_row() + 1))
+            else:
+                self.show_message("Not in word list")
+            
+            
+
+
+
+        # gw = WordleGWindow()
+        self.add_enter_listener(enter_action)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

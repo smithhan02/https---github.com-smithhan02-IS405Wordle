@@ -42,8 +42,8 @@ class WordleClass:
             
             if s == answer: #check if user guessed correct answer
                 gw.show_message("Congratulations, You Won!") 
-                self.round_number += 1 #advance round number 
-                self.stats_list.append(str(self.round_number) + " " + gw.get_current_row() + " guesses n/") #append number of guesses for this round to stats_list
+                # round_number += 1 #advance round number 
+                # stats_list.append(str(round_number) + " " + gw.get_current_row() + " guesses n/") #append number of guesses for this round to stats_list
 
                 for letter in s:
                     if letter == answer[position]:
