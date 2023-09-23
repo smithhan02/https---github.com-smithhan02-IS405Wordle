@@ -9,7 +9,7 @@ import atexit
 import math
 import time
 import tkinter
-from Wordle import WordleClass
+# from Wordle import WordleClass
 
 
 # Constants
