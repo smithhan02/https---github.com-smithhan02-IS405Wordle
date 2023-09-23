@@ -297,71 +297,71 @@ class WordleGWindow:
                 return MISSING_COLOR_ALTERNATE
 
 
-    def wordle2(self):
+    # def wordle2(self):
 
-        #pick random word for the answer from word list
-        word_list= []
-        word_file = FIVE_LETTER_WORDS
-        for word in word_file:
-            word_list.append(word.strip())
+    #     #pick random word for the answer from word list
+    #     word_list= []
+    #     word_file = FIVE_LETTER_WORDS
+    #     for word in word_file:
+    #         word_list.append(word.strip())
         
-        #pick a word
-        answer = random.choice(word_list)
-        answer = answer.upper()
-        print(answer) #prints the answer in the terminal to help with testing
+    #     #pick a word
+    #     answer = random.choice(word_list)
+    #     answer = answer.upper()
+    #     print(answer) #prints the answer in the terminal to help with testing
         
-        #once the user hits enter, run the function below
-        def enter_action(s):  #s is the user's guess
-            r = s.lower() # r is the lower case version of the user's 
-            position = 0 #setting initial column position 
-            print(r) #prints lower case version of user guess in terminal 
+    #     #once the user hits enter, run the function below
+    #     def enter_action(s):  #s is the user's guess
+    #         r = s.lower() # r is the lower case version of the user's 
+    #         position = 0 #setting initial column position 
+    #         print(r) #prints lower case version of user guess in terminal 
             
-            if s == answer: #check if user guessed correct answer
-                self.show_message("Congratulations, You Won!") 
-                # self.round_number += 1 #advance round number 
-                # self.stats_list.append(str(self.round_number) + " " + str(self.get_current_row()) + " guesses n/") #append number of guesses for this round to stats_list
-                print(self.stats_list)
-                for letter in s:
-                    if letter == answer[position]:
-                        self.set_square_color(self.get_current_row(), position, self.get_letter_color("CORRECT")) #color green
-                    #letter in answer but not in the same position
-                    elif letter in answer:
-                        self.set_square_color(self.get_current_row(), position, self.get_letter_color("PRESENT")) #color yellow
-                    else:
-                        self.set_square_color(self.get_current_row(), position, self.get_letter_color("MISSING")) #color grey
-                        self.get_current_row()
-                    #move to next column/letter
-                    position += 1
-            elif r in word_list and r != answer: #check if user guessed a word from the list 
-                self.show_message("Not the correct word")
+    #         if s == answer: #check if user guessed correct answer
+    #             self.show_message("Congratulations, You Won!") 
+    #             # self.round_number += 1 #advance round number 
+    #             # self.stats_list.append(str(self.round_number) + " " + str(self.get_current_row()) + " guesses n/") #append number of guesses for this round to stats_list
+    #             print(self.stats_list)
+    #             for letter in s:
+    #                 if letter == answer[position]:
+    #                     self.set_square_color(self.get_current_row(), position, self.get_letter_color("CORRECT")) #color green
+    #                 #letter in answer but not in the same position
+    #                 elif letter in answer:
+    #                     self.set_square_color(self.get_current_row(), position, self.get_letter_color("PRESENT")) #color yellow
+    #                 else:
+    #                     self.set_square_color(self.get_current_row(), position, self.get_letter_color("MISSING")) #color grey
+    #                     self.get_current_row()
+    #                 #move to next column/letter
+    #                 position += 1
+    #         elif r in word_list and r != answer: #check if user guessed a word from the list 
+    #             self.show_message("Not the correct word")
                 
-                for letter in s:
-                    if letter == answer[position]:
-                        self.set_square_color(self.get_current_row(), position, self.get_letter_color("CORRECT")) #color green
-                    #letter in answer but not in the same position
-                    elif letter in answer:
-                        self.set_square_color(self.get_current_row(), position, self.get_letter_color("PRESENT")) #color yellow
-                    else:
-                        self.set_square_color(self.get_current_row(), position, self.get_letter_color("MISSING")) #color grey
+    #             for letter in s:
+    #                 if letter == answer[position]:
+    #                     self.set_square_color(self.get_current_row(), position, self.get_letter_color("CORRECT")) #color green
+    #                 #letter in answer but not in the same position
+    #                 elif letter in answer:
+    #                     self.set_square_color(self.get_current_row(), position, self.get_letter_color("PRESENT")) #color yellow
+    #                 else:
+    #                     self.set_square_color(self.get_current_row(), position, self.get_letter_color("MISSING")) #color grey
 
-                    #move to next column/letter
-                    position += 1
+    #                 #move to next column/letter
+    #                 position += 1
                 
-                    #if previous word is not correct, call this fucntion to move rows
-                if (self.get_current_row() >= 5):
-                    #ran out of turns
-                    self.show_message("YOU LOSE!")
-                else:
-                    self.set_current_row((self.get_current_row() + 1))
-            else:
-                self.show_message("Not in word list")
+    #                 #if previous word is not correct, call this fucntion to move rows
+    #             if (self.get_current_row() >= 5):
+    #                 #ran out of turns
+    #                 self.show_message("YOU LOSE!")
+    #             else:
+    #                 self.set_current_row((self.get_current_row() + 1))
+    #         else:
+    #             self.show_message("Not in word list")
             
             
 
 
 
-        # gw = WordleGWindow()
-        self.add_enter_listener(enter_action)
+    #     # gw = WordleGWindow()
+    #     self.add_enter_listener(enter_action)
 
 
 
